@@ -58,12 +58,6 @@ def second_star():
         nb_bags += bag.nb
     print("[**] Number of bags : %s"%nb_bags)
 
-    
-
-
-
-
-
 
 if __name__ == "__main__":
     first_star()
