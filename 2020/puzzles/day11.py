@@ -7,7 +7,7 @@ def get_puzzle_input(filename):
 
 def check_seat(seats,i,j):
     if i < 0 or j < 0 or i > len(seats)-1 or j > len(seats[0])-1:
-        return 'W'
+        return 'W' # Wall
     else:
         return seats[i][j]
 
@@ -24,148 +24,42 @@ def occupied_seats_around(seats,seat_i,seat_j):
     else:
         return False
 
-   
-
-def occupied_seats_around_second_star(seats,seat_i,seat_j):
+def occupied_seats_visible_around(seats,seat_i,seat_j):
     nb_occupied_seats_around = 0
-    i,j = 0,1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        j += 1
-    i,j = 1,1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        j += 1; i += 1
-    i,j = 1,0
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        i += 1    
-    i,j = -1,-1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        i -= 1 ; j -= 1
-    i,j = 0,-1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        j -= 1
-    i,j = -1,0
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        i -= 1
-    i,j = -1,1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        i -= 1 ; j += 1
-    i,j = 1,-1    
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                nb_occupied_seats_around += 1
-            break
-        i += 1 ; j -= 1    
+    coord = [seat_i,seat_j]
+    vectors = [[1,0],[1,1],[0,1],[-1,0],[-1,-1],[0,-1],[-1,1],[1,-1]]
+    for v in vectors:
+        i,j = 1,1
+        while True:
+            seat = check_seat(seats,coord[0]+i*v[0],coord[1]+j*v[1])
+            if seat != '.' or seat == 'W':
+                if seat == '#':
+                    nb_occupied_seats_around += 1
+                break
+            i += 1
+            j += 1
     if nb_occupied_seats_around >= 5:
         return True
     else:
         return False
 
-def empty_seats_around_second_star(seats,seat_i,seat_j):
+def empty_seats_visible_around(seats,seat_i,seat_j):
     around_clear = True
-    i,j = 0,1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        j += 1
-    i,j = 1,1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        j += 1; i += 1
-    i,j = 1,0
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        i += 1    
-    i,j = -1,-1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        i -= 1 ; j -= 1
-    i,j = 0,-1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        j -= 1
-    i,j = -1,0
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        i -= 1
-    i,j = -1,1
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        i -= 1 ; j += 1
-    i,j = 1,-1    
-    while True:
-        s = check_seat(seats,seat_i+i,seat_j+j)
-        if s != '.' or s == 'W':
-            if s == '#':
-                around_clear = False
-            break
-        i += 1 ; j -= 1    
+    coord = [seat_i,seat_j]
+    vectors = [[1,0],[1,1],[0,1],[-1,0],[-1,-1],[0,-1],[-1,1],[1,-1]]
+    for v in vectors:
+        i,j = 1,1
+        while True:
+            seat = check_seat(seats,coord[0]+i*v[0],coord[1]+j*v[1])
+            if seat != '.' or seat == 'W':
+                if seat == '#':
+                    around_clear = False
+                break
+            i += 1
+            j += 1
     return around_clear
 
-def empty_around_seat(seats,seat_i,seat_j):
+def empty_seat_around(seats,seat_i,seat_j):
     empty_around = True
     for i in range(-1,2):
         for j in range(-1,2):
@@ -195,7 +89,7 @@ def first_star():
     seats = get_puzzle_input('../data/inputday11.txt')
     
     while True:
-        new_seats = step(seats,empty_around_seat,occupied_seats_around)
+        new_seats = step(seats,empty_seat_around,occupied_seats_around)
         if new_seats == seats:
             break
         else:
@@ -213,11 +107,7 @@ def second_star():
     seats = get_puzzle_input('../data/inputday11.txt')
     
     while True:
-        new_seats = step(seats,empty_seats_around_second_star,occupied_seats_around_second_star)     
-        #for l in new_seats:
-        #    print(l)
-        #print('__________________________________________________')
-
+        new_seats = step(seats,empty_seats_visible_around,occupied_seats_visible_around)     
         if new_seats == seats:
             break
         else:
