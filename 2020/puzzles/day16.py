@@ -21,7 +21,7 @@ def get_puzzle_input(filename):
             nearby_tickets.append(tickets.strip())
     return fields,my_ticket,nearby_tickets
 
-          
+
 def check_ticket(values, ticket):
     '''
     For each value of the ticket ('val1,val2,val3,...'), check if it's included in one of the field interval (tuples).
