@@ -1,6 +1,8 @@
 import copy
 from collections import defaultdict
 
+# TODO!!!!
+
 def get_puzzle_input(filename):
     with open(filename,'r') as file:
         rules = defaultdict(list)
